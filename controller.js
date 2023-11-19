@@ -39,8 +39,8 @@ exports.tambahdatamahasiswa = function (req, res) {
 
     connection.query('INSERT INTO mahasiswa (nim,nama,jurusan) VALUES (?,?,?)',
         [nim, nama, jurusan],
-        function(error, rows, fields){
-            if(error){
+        function (error, rows, fields) {
+            if (error) {
                 console.log(error);
             } else {
                 response.ok("Berhasil menambahkan data!", res)
@@ -49,3 +49,21 @@ exports.tambahdatamahasiswa = function (req, res) {
     );
 
 };
+
+// mengubah data berdasarkan id
+exports.ubahMahasiswa = function (req, res) {
+    var idmhs = req.body.idmhs;
+    var nim = req.body.nim;
+    var nama = req.body.nama;
+    var jurusan = req.body.jurusan;
+
+    connection.query('UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE idmhs=?', [nim, nama, jurusan, idmhs],
+        function (error, rows, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok("Berhasil Ubah Data!", res)
+            }
+        }
+    );
+}
