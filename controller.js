@@ -3,31 +3,49 @@
 var response = require('./res');
 var connection = require('./koneksi');
 
-exports.index = function(req, res){
-    response.ok("Aplikasi Rest API berjalan!",res)
+exports.index = function (req, res) {
+    response.ok("Aplikasi Rest API berjalan!", res)
 };
 
 // menampilkan seluruh data mahasiswa
-exports.tampilsemuamahasiswa = function(req, res){
-    connection.query('SELECT * FROM mahasiswa', function(error, rows, fields){
-        if(error){
+exports.tampilsemuamahasiswa = function (req, res) {
+    connection.query('SELECT * FROM mahasiswa', function (error, rows, fields) {
+        if (error) {
             connection.log(error);
-        }else {
+        } else {
             response.ok(rows, res)
         }
     });
 };
 
 //menampilkan semua data mahasiswa berdasarkan id
-exports.tampilberdasarkannim = function(req, res){
-    let nim = req.params.nim;
-    connection.query('SELECT * FROM mahasiswa WHERE nim = ?', [nim],
-    function(error, row, fields){
-        if(error){
-            console.log(error);
-        } else {
-            response.ok(row, res);
-        }
-    });
+exports.tampilberdasarkanidmhs = function (req, res) {
+    let idmhs = req.params.idmhs;
+    connection.query('SELECT * FROM mahasiswa WHERE idmhs = ?', [idmhs],
+        function (error, row, fields) {
+            if (error) {
+                console.log(error);
+            } else {
+                response.ok(row, res);
+            }
+        });
 };
 
+// menambahkan data mahasisawa
+exports.tambahdatamahasiswa = function (req, res) {
+    var nim = req.body.nim;
+    var nama = req.body.nama;
+    var jurusan = req.body.jurusan;
+
+    connection.query('INSERT INTO mahasiswa (nim,nama,jurusan) VALUES (?,?,?)',
+        [nim, nama, jurusan],
+        function(error, rows, fields){
+            if(error){
+                console.log(error);
+            } else {
+                response.ok("Berhasil menambahkan data!", res)
+            }
+        }
+    );
+
+};
