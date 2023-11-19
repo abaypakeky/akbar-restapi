@@ -16,4 +16,18 @@ exports.tampilsemuamahasiswa = function(req, res){
             response.ok(rows, res)
         }
     });
-}
+};
+
+//menampilkan semua data mahasiswa berdasarkan id
+exports.tampilberdasarkannim = function(req, res){
+    let nim = req.params.nim;
+    connection.query('SELECT * FROM mahasiswa WHERE nim = ?', [nim],
+    function(error, row, fields){
+        if(error){
+            console.log(error);
+        } else {
+            response.ok(row, res);
+        }
+    });
+};
+
